@@ -38,6 +38,10 @@ export default function SignIn() {
     const classes = useStyles();
     const { handleSubmit, register } = useForm();
 
+    const onSubmit = (data) => {
+        console.log(data);
+    }
+
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
@@ -48,7 +52,7 @@ export default function SignIn() {
                 <Typography component="h1" variant="h5">
                     Sign in
                 </Typography>
-                <form onSubmit={onSubmit} className={classes.form} noValidate>
+                <form onSubmit={handleSubmit(onSubmit)} className={classes.form} noValidate>
                     <TextField
                         variant="outlined"
                         margin="normal"
