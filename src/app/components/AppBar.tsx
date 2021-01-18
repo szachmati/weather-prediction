@@ -19,11 +19,15 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function ButtonAppBar() {
+interface ButtonAppBarProps {
+    onClick: () => void;
+}
+
+function ButtonAppBar(props: ButtonAppBarProps)  {
     const classes = useStyles();
 
     const handleClick = () => {
-        console.log('clicked');
+        props.onClick();
     }
 
     return (
