@@ -1,11 +1,15 @@
 import React from 'react';
 import './App.css';
 import ButtonAppBar from "./app/components/AppBar";
+import SignIn from "./app/components/SignIn";
 
 
 function App() {
   return (
-    <ButtonAppBar />
+      <React.Fragment>
+        <ButtonAppBar />
+        <SignIn />
+      </React.Fragment>
   );
 }
 

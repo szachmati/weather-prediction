@@ -22,6 +22,10 @@ const useStyles = makeStyles((theme) => ({
 function ButtonAppBar() {
     const classes = useStyles();
 
+    const handleClick = () => {
+        console.log('clicked');
+    }
+
     return (
         <div className={classes.root}>
             <AppBar position="static">
@@ -32,7 +36,7 @@ function ButtonAppBar() {
                     <Typography variant="h6" className={classes.title}>
                         Weather prediction
                     </Typography>
-                    <Button color="inherit">Login</Button>
+                    <Button onClick={() => handleClick()} color="inherit">Login</Button>
                 </Toolbar>
             </AppBar>
         </div>
