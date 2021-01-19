@@ -34,8 +34,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignIn() {
-  const classes = useStyles();
   const { handleSubmit, register } = useForm();
+  const classes = useStyles();
 
   const onSubmit = (data) => {
     console.log(data);
@@ -100,8 +100,8 @@ export default function SignIn() {
               </Link>
             </Grid>
             <Grid item>
-              <Link href="#" variant="body2">
-                {"Don't have an account? Sign Up"}
+              <Link href="/signup" variant="body2">
+                Don't have an account? Sign Up
               </Link>
             </Grid>
           </Grid>

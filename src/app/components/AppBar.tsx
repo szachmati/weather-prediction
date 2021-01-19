@@ -6,6 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,16 +20,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-interface ButtonAppBarProps {
-  onClick: () => void;
-}
-
-function ButtonAppBar(props: ButtonAppBarProps) {
+export default function ApplicationBar() {
+  const history = useHistory();
   const classes = useStyles();
 
-  const handleClick = () => {
-    props.onClick();
-  };
+  function handleClick() {
+    history.push("/signin");
+  }
 
   return (
     <div className={classes.root}>
@@ -45,7 +43,7 @@ function ButtonAppBar(props: ButtonAppBarProps) {
           <Typography variant="h6" className={classes.title}>
             Weather prediction
           </Typography>
-          <Button onClick={() => handleClick()} color="inherit">
+          <Button onClick={handleClick} color="inherit">
             Login
           </Button>
         </Toolbar>
@@ -53,5 +51,3 @@ function ButtonAppBar(props: ButtonAppBarProps) {
     </div>
   );
 }
-
-export default ButtonAppBar;
