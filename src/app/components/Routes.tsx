@@ -22,6 +22,7 @@ const routes: RouteModel[] = [
 function Content() {
   return (
     <Switch>
+      <Route exact path="/" component={SignIn} />
       {routes.map((route) => {
         return <Route exact path={route.path} component={route.component} />;
       })}
