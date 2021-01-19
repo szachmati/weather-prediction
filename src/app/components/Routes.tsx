@@ -23,8 +23,15 @@ function Content() {
   return (
     <Switch>
       <Route exact path="/" component={SignIn} />
-      {routes.map((route) => {
-        return <Route exact path={route.path} component={route.component} />;
+      {routes.map((route, index) => {
+        return (
+          <Route
+            key={index}
+            exact
+            path={route.path}
+            component={route.component}
+          />
+        );
       })}
     </Switch>
   );
