@@ -1,21 +1,15 @@
-import React, {useState} from 'react';
-import './App.css';
-import ButtonAppBar from "./app/components/AppBar";
-import SignIn from "./app/components/SignIn";
+import React from "react";
+import "./App.css";
+import Content from "./app/components/Routes";
+import ApplicationBar from "./app/components/AppBar";
 
-
-function App() {
-    const [show, setShown] = useState<boolean>(false);
-
-    const handleClick = () => {
-        setShown(true);
-    }
+export default function App() {
   return (
-      <React.Fragment>
-        <ButtonAppBar onClick={handleClick} />
-          {show && <SignIn />}
-      </React.Fragment>
+    <div>
+      <main>
+        <ApplicationBar />
+        <Content />
+      </main>
+    </div>
   );
 }
-
-export default App;
