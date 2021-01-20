@@ -6,6 +6,7 @@ import SignUp from "./SignUp";
 interface RouteModel {
   path: string;
   component: React.ComponentType<any>;
+  routePrivilege?: string;
 }
 
 const routes: RouteModel[] = [
