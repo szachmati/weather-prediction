@@ -1,7 +1,6 @@
 import React, { createContext, useEffect } from "react";
 import axios, { AxiosResponse } from "axios";
 import { environments } from "../../environments";
-import { User, UserRole } from "../model/model";
 import { useDispatch } from "react-redux";
 import { handleApiMessage } from "../store/app.store.action";
 import { Severity } from "../components/alert/Info";
@@ -25,13 +24,7 @@ export const ApiInterceptorContext = createContext({
 
 export function ApiInterceptorContextProvider({ children }) {
   const dispatch = useDispatch();
-  const mockUserLogged: User = {
-    email: "jan@kowalski.pl",
-    name: "Jan",
-    password: "test",
-    surname: "Kowalski",
-    role: UserRole.USER,
-  };
+
   let requestInterceptor;
   let responseInterceptor;
 
