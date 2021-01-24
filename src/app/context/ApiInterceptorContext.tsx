@@ -1,7 +1,7 @@
-import React, {createContext} from "react";
+import React, { createContext } from "react";
 import axios from "axios";
-import {environments} from "../../environments";
-import {User, UserRole} from "../model/model";
+import { environments } from "../../environments";
+import { User, UserRole } from "../model/model";
 
 export enum HttpHeaders {
   AUTHORIZATION = "Authorization",
@@ -21,7 +21,7 @@ export function ApiInterceptorContextProvider() {
     name: "Jan",
     password: "test",
     surname: "Kowalski",
-    role: UserRole.USER
+    role: UserRole.USER,
   };
   axiosInstance.interceptors.request.use(
     (config) => {
