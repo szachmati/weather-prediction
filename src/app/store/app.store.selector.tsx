@@ -1,1 +1,1 @@
-export const selectApiMessage = (state) => state.notification;
+export const selectApiNotification = (state) => state.notification;

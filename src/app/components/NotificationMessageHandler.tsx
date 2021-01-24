@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import InfoAlert from "./alert/Info";
 import { useSelector } from "react-redux";
-import { selectApiMessage } from "../store/app.store.selector";
+import { selectApiNotification } from "../store/app.store.selector";
 import { useDispatch } from "react-redux";
 import { hideNotification } from "../store/app.store.action";
 
 export function NotificationMessageHandler() {
   const [message, setMessage] = useState<string>("");
-  const notification = useSelector(selectApiMessage);
+  const notification = useSelector(selectApiNotification);
   const dispatch = useDispatch();
 
   useEffect(() => {
