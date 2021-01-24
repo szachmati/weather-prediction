@@ -1,14 +1,19 @@
 import React from "react";
 import "./App.css";
-import Content from "./app/components/Routes";
-import ApplicationBar from "./app/components/AppBar";
+import Content from "./app/routing/Routes";
+import ApplicationBar from "./app/components/navbar/AppBar";
+import { ApiInterceptorContextProvider } from "./app/context/ApiInterceptorContext";
+import { NotificationMessageHandler } from "./app/components/NotificationMessageHandler";
 
 export default function App() {
   return (
     <div>
       <main>
-        <ApplicationBar />
-        <Content />
+        <ApiInterceptorContextProvider>
+          <ApplicationBar />
+          <Content />
+          <NotificationMessageHandler />
+        </ApiInterceptorContextProvider>
       </main>
     </div>
   );

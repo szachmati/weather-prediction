@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -10,10 +10,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import axios from "axios";
 import { environments } from "../../environments";
-import { User } from "./model";
-import InfoAlert, { Severity } from "./Info";
+import { User, UserRole } from "../model/model";
+import { ApiInterceptorContext } from "../context/ApiInterceptorContext";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -37,32 +36,19 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUp() {
   const { handleSubmit, register, reset } = useForm();
-  const [showInfo, setShowInfo] = useState({
-    show: false,
-    message: "",
-    severity: Severity.INFO,
-  });
+  const { axiosInstance } = useContext(ApiInterceptorContext);
   const classes = useStyles();
 
   const onSubmit = (data) => {
     console.log(data);
-    const user: User = data;
-    axios
-      .post(`${environments.API}/signup`, user)
-      .then(() =>
-        setShowInfo({
-          show: true,
-          message: "Registration completed successfully",
-          severity: Severity.SUCCESS,
-        })
-      )
-      .catch(() =>
-        setShowInfo({
-          show: true,
-          message: "Registration has failed",
-          severity: Severity.ERROR,
-        })
-      );
+    const user: User = {
+      password: data.password,
+      surname: data.surname,
+      name: data.name,
+      email: data.email,
+      role: UserRole.USER,
+    };
+    axiosInstance.post(`${environments.API}/signup`, user).then(() => {});
     reset();
   };
 
@@ -88,7 +74,6 @@ export default function SignUp() {
                   fullWidth
                   id="firstName"
                   label="First Name"
-                  autoFocus
                   inputRef={register}
                 />
               </Grid>
@@ -147,9 +132,6 @@ export default function SignUp() {
           </form>
         </div>
       </Container>
-      {showInfo.show && (
-        <InfoAlert message={showInfo.message} severity={showInfo.severity} />
-      )}
     </React.Fragment>
   );
 }
