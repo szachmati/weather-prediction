@@ -23,7 +23,7 @@ export default function InfoAlert(props: InfoAlertProps) {
   const { severity, message } = props;
 
   function handleClose(event, reason) {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
     setOpen(false);

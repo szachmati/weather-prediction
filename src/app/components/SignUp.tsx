@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { environments } from "../../environments";
-import { User } from "./model";
+import { User, UserRole } from "../model/model";
 import InfoAlert, { Severity } from "./Info";
 
 const useStyles = makeStyles((theme) => ({
@@ -46,7 +46,13 @@ export default function SignUp() {
 
   const onSubmit = (data) => {
     console.log(data);
-    const user: User = data;
+    const user: User = {
+      password: data.password,
+      surname: data.surname,
+      name: data.name,
+      email: data.email,
+      role: UserRole.USER,
+    };
     axios
       .post(`${environments.API}/signup`, user)
       .then(() =>

@@ -2,6 +2,7 @@ import React from "react";
 import "./App.css";
 import Content from "./app/components/Routes";
 import ApplicationBar from "./app/components/AppBar";
+import { ApiInterceptorContextProvider } from "./app/context/ApiInterceptorContext";
 
 export default function App() {
   return (
@@ -9,6 +10,7 @@ export default function App() {
       <main>
         <ApplicationBar />
         <Content />
+        <ApiInterceptorContextProvider />
       </main>
     </div>
   );
