@@ -33,8 +33,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const defaultValues = {
+  email: "",
+  password: "",
+};
+
 export default function SignIn() {
-  const { handleSubmit, register } = useForm();
+  const { handleSubmit, register, reset, formState: { isDirty, isValid } } = useForm({
+    defaultValues: defaultValues,
+    mode: "onChange"
+  });
   const { axiosInstance } = useContext(ApiInterceptorContext);
   const classes = useStyles();
 
@@ -47,6 +55,7 @@ export default function SignIn() {
 
   const onSubmit = (data) => {
     console.log(data);
+    reset();
   };
 
   return (
@@ -59,11 +68,7 @@ export default function SignIn() {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className={classes.form}
-          noValidate
-        >
+        <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
           <TextField
             variant="outlined"
             margin="normal"
@@ -73,7 +78,7 @@ export default function SignIn() {
             label="Email Address"
             name="email"
             autoComplete="email"
-            inputRef={register}
+            inputRef={register({required: true})}
           />
           <TextField
             variant="outlined"
@@ -85,7 +90,7 @@ export default function SignIn() {
             type="password"
             id="password"
             autoComplete="current-password"
-            inputRef={register}
+            inputRef={register({required: true})}
           />
           <Button
             type="submit"
@@ -93,6 +98,7 @@ export default function SignIn() {
             variant="contained"
             color="primary"
             className={classes.submit}
+            disabled={!isDirty || !isValid}
           >
             Sign In
           </Button>
