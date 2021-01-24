@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -10,7 +10,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
-import { environments } from "../../environments";
 import { ApiInterceptorContext } from "../context/ApiInterceptorContext";
 
 const useStyles = makeStyles((theme) => ({
@@ -50,13 +49,6 @@ export default function SignIn() {
   });
   const { axiosInstance } = useContext(ApiInterceptorContext);
   const classes = useStyles();
-
-  //TODO example api get request
-  useEffect(() => {
-    axiosInstance
-      .get(`${environments.API}/hello-world`)
-      .then((resp) => console.log(resp.data));
-  }, [axiosInstance]);
 
   const onSubmit = (data) => {
     console.log(data);

@@ -1,10 +1,18 @@
-import React, { createContext } from "react";
-import axios from "axios";
+import React, { createContext, useEffect } from "react";
+import axios, { AxiosResponse } from "axios";
 import { environments } from "../../environments";
 import { User, UserRole } from "../model/model";
+import { useDispatch } from "react-redux";
+import { handleApiMessage } from "../store/app.store.action";
+import { Severity } from "../components/alert/Info";
 
 export enum HttpHeaders {
   AUTHORIZATION = "Authorization",
+}
+
+enum HttpMethod {
+  POST = "POST",
+  PUT = "PUT",
 }
 
 const axiosInstance = axios.create({
@@ -15,7 +23,8 @@ export const ApiInterceptorContext = createContext({
   axiosInstance: axiosInstance,
 });
 
-export function ApiInterceptorContextProvider() {
+export function ApiInterceptorContextProvider({ children }) {
+  const dispatch = useDispatch();
   const mockUserLogged: User = {
     email: "jan@kowalski.pl",
     name: "Jan",
@@ -23,35 +32,60 @@ export function ApiInterceptorContextProvider() {
     surname: "Kowalski",
     role: UserRole.USER,
   };
-  axiosInstance.interceptors.request.use(
-    (config) => {
-      console.log("axios.request onFulfilled(): ", config);
-      if (mockUserLogged) {
-        config.headers[HttpHeaders.AUTHORIZATION] =
-          "Bearer " + btoa(mockUserLogged.password);
-      }
-      return config;
-    },
-    (error) => {
-      console.log("axios.request onReject(): ", error);
-      return Promise.reject(error);
-    }
-  );
+  let requestInterceptor;
+  let responseInterceptor;
 
-  axiosInstance.interceptors.response.use(
-    (config) => {
-      console.log("axios.response onFulfilled(): ", config);
-      return config;
-    },
-    (error) => {
-      console.log("axios.response onReject(): ", error);
-      return Promise.reject(error);
+  useEffect(() => {
+    applyInterceptors();
+    return () => {
+      removeInterceptors();
+    };
+  }, []);
+
+  const applyInterceptors = () => {
+    requestInterceptor = axiosInstance.interceptors.request.use(
+      (axiosConfig) => axiosConfig,
+      (error) => Promise.reject(error)
+    );
+    responseInterceptor = axiosInstance.interceptors.response.use(
+      (axiosResponse) => handleResponseSuccess(axiosResponse),
+      (error) => handleResponseError(error)
+    );
+  };
+
+  const handleResponseSuccess = (axiosResponse: AxiosResponse) => {
+    if (isCreateOrUpdateMethod(axiosResponse)) {
+      sendResponseNotification(Severity.SUCCESS, "Success");
     }
-  );
+    return axiosResponse;
+  };
+
+  const handleResponseError = (error) => {
+    if (isCreateOrUpdateMethod(error)) {
+      sendResponseNotification(Severity.ERROR, "Error has occured");
+    }
+    return Promise.reject(error);
+  };
+
+  const sendResponseNotification = (severity: Severity, message: string) => {
+    dispatch(handleApiMessage({ severity: severity, message: message }));
+  };
+
+  const removeInterceptors = () => {
+    axios.interceptors.request.eject(requestInterceptor);
+    axios.interceptors.response.eject(responseInterceptor);
+  };
+
+  const isCreateOrUpdateMethod = (axiosResponse) => {
+    return (
+      axiosResponse?.config?.method?.toUpperCase() === HttpMethod.POST ||
+      axiosResponse?.config?.method?.toUpperCase() === HttpMethod.PUT
+    );
+  };
 
   return (
-    <ApiInterceptorContext.Provider
-      value={{ axiosInstance }}
-    ></ApiInterceptorContext.Provider>
+    <ApiInterceptorContext.Provider value={{ axiosInstance }}>
+      {children}
+    </ApiInterceptorContext.Provider>
   );
 }
