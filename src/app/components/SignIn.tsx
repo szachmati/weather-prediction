@@ -39,9 +39,14 @@ const defaultValues = {
 };
 
 export default function SignIn() {
-  const { handleSubmit, register, reset, formState: { isDirty, isValid } } = useForm({
+  const {
+    handleSubmit,
+    register,
+    reset,
+    formState: { isDirty, isValid },
+  } = useForm({
     defaultValues: defaultValues,
-    mode: "onChange"
+    mode: "onChange",
   });
   const { axiosInstance } = useContext(ApiInterceptorContext);
   const classes = useStyles();
@@ -78,7 +83,7 @@ export default function SignIn() {
             label="Email Address"
             name="email"
             autoComplete="email"
-            inputRef={register({required: true})}
+            inputRef={register({ required: true })}
           />
           <TextField
             variant="outlined"
@@ -90,7 +95,7 @@ export default function SignIn() {
             type="password"
             id="password"
             autoComplete="current-password"
-            inputRef={register({required: true})}
+            inputRef={register({ required: true })}
           />
           <Button
             type="submit"
