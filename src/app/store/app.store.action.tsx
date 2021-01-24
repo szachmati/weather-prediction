@@ -1,3 +1,3 @@
 import { notificationSlice } from "./app.store.reducer";
 
-export const { handleApiMessage } = notificationSlice.actions;
+export const { showNotification, hideNotification } = notificationSlice.actions;

@@ -2,35 +2,27 @@ import React, { useEffect, useState } from "react";
 import InfoAlert from "./alert/Info";
 import { useSelector } from "react-redux";
 import { selectApiMessage } from "../store/app.store.selector";
-
-enum Severity {
-  SUCCESS = "success",
-  ERROR = "error",
-  INFO = "info",
-  WARNING = "warning",
-}
-
-export interface NotificationMessage {
-  severity: Severity;
-  message: string;
-}
+import { useDispatch } from "react-redux";
+import { hideNotification } from "../store/app.store.action";
 
 export function NotificationMessageHandler() {
-  const [notificationMsg, setNotificationMsg] = useState<NotificationMessage>(
-    null
-  );
-  const apiMessage = useSelector(selectApiMessage);
+  const [message, setMessage] = useState<string>("");
+  const notification = useSelector(selectApiMessage);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    setNotificationMsg(apiMessage);
-  }, [apiMessage]);
+    setMessage(notification.message);
+  }, [notification]);
 
-  return (
-    notificationMsg?.message !== "" && (
-      <InfoAlert
-        severity={notificationMsg?.severity}
-        message={notificationMsg?.message}
-      />
-    )
-  );
+  const handleClose = () => {
+    dispatch(hideNotification());
+  };
+
+  return notification?.show ? (
+    <InfoAlert
+      onClose={handleClose}
+      severity={notification.severity}
+      message={message}
+    />
+  ) : null;
 }

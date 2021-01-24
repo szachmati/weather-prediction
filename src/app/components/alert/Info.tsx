@@ -12,6 +12,7 @@ export enum Severity {
 interface InfoAlertProps {
   severity: Severity;
   message: string;
+  onClose: () => void;
 }
 
 function Alert(props) {
@@ -20,13 +21,14 @@ function Alert(props) {
 
 export default function InfoAlert(props: InfoAlertProps) {
   const [open, setOpen] = useState<boolean>(true);
-  const { severity, message } = props;
+  const { severity, message, onClose } = props;
 
   function handleClose(event, reason) {
     if (reason === "clickaway") {
       return;
     }
     setOpen(false);
+    onClose();
   }
 
   return (

@@ -6,14 +6,19 @@ export const notificationSlice = createSlice({
   initialState: {
     severity: Severity.INFO,
     message: "",
+    show: false,
   },
   reducers: {
-    handleApiMessage: (state, action) => {
+    showNotification: (state, action) => {
       return {
         ...state,
         severity: action.payload.severity,
         message: action.payload.message,
+        show: true,
       };
+    },
+    hideNotification: (state) => {
+      return { ...state, message: "", show: false };
     },
   },
 });

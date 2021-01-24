@@ -2,7 +2,7 @@ import React, { createContext, useEffect } from "react";
 import axios, { AxiosResponse } from "axios";
 import { environments } from "../../environments";
 import { useDispatch } from "react-redux";
-import { handleApiMessage } from "../store/app.store.action";
+import { showNotification } from "../store/app.store.action";
 import { Severity } from "../components/alert/Info";
 
 export enum HttpHeaders {
@@ -61,7 +61,7 @@ export function ApiInterceptorContextProvider({ children }) {
   };
 
   const sendResponseNotification = (severity: Severity, message: string) => {
-    dispatch(handleApiMessage({ severity: severity, message: message }));
+    dispatch(showNotification({ severity: severity, message: message }));
   };
 
   const removeInterceptors = () => {
