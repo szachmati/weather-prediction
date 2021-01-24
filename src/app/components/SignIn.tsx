@@ -73,7 +73,6 @@ export default function SignIn() {
             label="Email Address"
             name="email"
             autoComplete="email"
-            autoFocus
             inputRef={register}
           />
           <TextField
