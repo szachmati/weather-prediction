@@ -47,7 +47,10 @@ export function ApiInterceptorContextProvider({ children }) {
   const handleResponseSuccess = (axiosResponse: AxiosResponse) => {
     console.log(axiosResponse);
     if (isCreateOrUpdateMethod(axiosResponse)) {
-      sendResponseNotification(Severity.SUCCESS, "Success: " + axiosResponse?.data?.message);
+      sendResponseNotification(
+        Severity.SUCCESS,
+        "Success: " + axiosResponse?.data?.message
+      );
     }
     return axiosResponse;
   };
@@ -55,7 +58,10 @@ export function ApiInterceptorContextProvider({ children }) {
   const handleResponseError = (error: AxiosError) => {
     console.log(error.response);
     if (isCreateOrUpdateMethod(error)) {
-      sendResponseNotification(Severity.ERROR, "Error: " + error?.response?.data?.error);
+      sendResponseNotification(
+        Severity.ERROR,
+        "Error: " + error?.response?.data?.error
+      );
     }
     return Promise.reject(error);
   };
