@@ -11,6 +11,7 @@ import Container from "@material-ui/core/Container";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { ApiInterceptorContext } from "../context/ApiInterceptorContext";
+import { environments } from "../../environments";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -50,8 +51,13 @@ export default function SignIn() {
   const { axiosInstance } = useContext(ApiInterceptorContext);
   const classes = useStyles();
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = (userCredentials) => {
+    console.log(userCredentials);
+    axiosInstance
+      .post(`${environments.API}/signin`, userCredentials)
+      .then(({ data }) => {
+        console.log(data);
+      });
     reset();
   };
 
