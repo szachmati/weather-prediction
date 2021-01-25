@@ -1,5 +1,5 @@
 import React, { createContext, useEffect } from "react";
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import { environments } from "../../environments";
 import { useDispatch } from "react-redux";
 import { showNotification } from "../store/app.store.action";
@@ -30,9 +30,7 @@ export function ApiInterceptorContextProvider({ children }) {
 
   useEffect(() => {
     applyInterceptors();
-    return () => {
-      removeInterceptors();
-    };
+    return () => removeInterceptors();
   }, []);
 
   const applyInterceptors = () => {
@@ -47,15 +45,17 @@ export function ApiInterceptorContextProvider({ children }) {
   };
 
   const handleResponseSuccess = (axiosResponse: AxiosResponse) => {
+    console.log(axiosResponse);
     if (isCreateOrUpdateMethod(axiosResponse)) {
-      sendResponseNotification(Severity.SUCCESS, "Success");
+      sendResponseNotification(Severity.SUCCESS, "Success: " + axiosResponse?.data?.message);
     }
     return axiosResponse;
   };
 
-  const handleResponseError = (error) => {
+  const handleResponseError = (error: AxiosError) => {
+    console.log(error.response);
     if (isCreateOrUpdateMethod(error)) {
-      sendResponseNotification(Severity.ERROR, "Error has occured");
+      sendResponseNotification(Severity.ERROR, "Error: " + error?.response?.data?.error);
     }
     return Promise.reject(error);
   };
