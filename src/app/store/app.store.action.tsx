@@ -1,3 +1,4 @@
-import { notificationSlice } from "./app.store.reducer";
+import { notificationSlice, userSlice } from "./app.store.reducer";
 
 export const { showNotification, hideNotification } = notificationSlice.actions;
+export const { initUser } = userSlice.actions;

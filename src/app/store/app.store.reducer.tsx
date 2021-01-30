@@ -23,4 +23,18 @@ export const notificationSlice = createSlice({
   },
 });
 
+export const userSlice = createSlice({
+  name: "user",
+  initialState: {},
+  reducers: {
+    initUser: (state, action) => {
+      return {
+        ...state,
+        ...action.payload,
+      };
+    },
+  },
+});
+
 export const notificationReducer = notificationSlice.reducer;
+export const userReducer = userSlice.reducer;
