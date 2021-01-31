@@ -10,6 +10,8 @@ import {
 } from "@material-ui/core";
 import { User } from "../model/model";
 import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { logout } from '../store/app.store.action'
 
 interface UserDetailsDialogProps {
   onCancel: () => void;
@@ -19,11 +21,13 @@ interface UserDetailsDialogProps {
 
 export const UserDetailsDialog = (props: UserDetailsDialogProps) => {
   const history = useHistory();
+  const dispatch = useDispatch();
   const { onCancel, open, user } = props;
 
   const handleLogout = () => {
     onCancel();
     history.push('/signin')
+    dispatch(logout());
   }
 
   return (

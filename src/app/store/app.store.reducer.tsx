@@ -33,6 +33,10 @@ export const userSlice = createSlice({
         ...action.payload,
       };
     },
+    logout: (state) => {
+      state = null
+      return { ...state };
+    }
   },
 });
 

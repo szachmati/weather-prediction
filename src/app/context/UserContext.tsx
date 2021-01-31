@@ -24,8 +24,6 @@ export const UserContextProvider = ({ children }) => {
     return user.role === role;
   };
 
-  console.log(isUserLogged());
-
   return (
     <UserContext.Provider value={{ isUserLogged, hasRole }}>
       {children}
