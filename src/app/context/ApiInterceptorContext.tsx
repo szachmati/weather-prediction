@@ -4,6 +4,8 @@ import { environments } from "../../environments";
 import { useDispatch } from "react-redux";
 import { showNotification } from "../store/app.store.action";
 import { Severity } from "../components/alert/Info";
+import { useSelector } from "react-redux";
+import { selectAccessToken } from "../store/app.store.selector";
 
 export enum HttpHeaders {
   AUTHORIZATION = "Authorization",
@@ -24,6 +26,8 @@ export const ApiInterceptorContext = createContext({
 
 export function ApiInterceptorContextProvider({ children }) {
   const dispatch = useDispatch();
+  const accessToken = useSelector(selectAccessToken);
+  console.log(accessToken);
 
   let requestInterceptor = null;
   let responseInterceptor = null;
@@ -51,9 +55,9 @@ export function ApiInterceptorContextProvider({ children }) {
 
   const handleRequestConfig = (axiosConfig: AxiosRequestConfig) => {
     console.log("handleRequestConfig");
-    axios.defaults.headers.common[HttpHeaders.AUTHORIZATION] =
-      "Bearer " + localStorage.getItem("access_token");
-    // axiosConfig.headers[HttpHeaders.AUTHORIZATION] = 'Bearer ' + localStorage.getItem("access_token");
+    // axios.defaults.headers.common[HttpHeaders.AUTHORIZATION] =
+    //   "Bearer " + localStorage.getItem("access_token");
+    axiosConfig.headers[HttpHeaders.AUTHORIZATION] = 'Bearer ' + accessToken;
     return axiosConfig;
   };
 

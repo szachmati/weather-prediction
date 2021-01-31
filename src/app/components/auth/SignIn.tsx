@@ -18,7 +18,7 @@ import { environments } from "../../../environments";
 import { useDispatch } from "react-redux";
 import jwt_decode from "jwt-decode";
 import { User } from "../../model/model";
-import { initUser } from "../../store/app.store.action";
+import { initUser, addAccessToken } from "../../store/app.store.action";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -69,9 +69,9 @@ export default function SignIn() {
         //@ts-ignore
         const user: User = jwt_decode(data.access_token).identity;
         dispatch(initUser(user));
+        dispatch(addAccessToken({ access_token: data.access_token }));
         axiosInstance.defaults.headers[HttpHeaders.AUTHORIZATION] =
           "Bearer " + data.access_token;
-        // localStorage.setItem("access_token", data.access_token);
         history.push("/prediction");
       });
     reset();

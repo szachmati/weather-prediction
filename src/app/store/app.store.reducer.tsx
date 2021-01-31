@@ -40,5 +40,20 @@ export const userSlice = createSlice({
   },
 });
 
+export const accessTokenSlice = createSlice({
+  name: "access_token",
+  initialState: {},
+  reducers: {
+    addAccessToken: (state, action) => {
+      return { ...state, access_token: action.payload.access_token };
+    },
+    removeAccessToken: (state) => {
+      state = null;
+      return { ...state };
+    },
+  },
+});
+
 export const notificationReducer = notificationSlice.reducer;
 export const userReducer = userSlice.reducer;
+export const accessTokenReducer = accessTokenSlice.reducer;

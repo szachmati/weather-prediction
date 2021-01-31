@@ -11,7 +11,7 @@ import {
 import { User } from "../model/model";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { logout } from "../store/app.store.action";
+import { logout, removeAccessToken } from "../store/app.store.action";
 
 interface UserDetailsDialogProps {
   onCancel: () => void;
@@ -28,6 +28,7 @@ export const UserDetailsDialog = (props: UserDetailsDialogProps) => {
     onCancel();
     history.push("/signin");
     dispatch(logout());
+    dispatch(removeAccessToken());
   };
 
   return (

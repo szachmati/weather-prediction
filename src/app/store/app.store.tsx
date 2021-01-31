@@ -1,5 +1,9 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
-import { notificationReducer, userReducer } from "./app.store.reducer";
+import {
+  accessTokenReducer,
+  notificationReducer,
+  userReducer,
+} from "./app.store.reducer";
 import thunk from "redux-thunk";
 import storage from "redux-persist/lib/storage";
 import { persistStore, persistReducer } from "redux-persist";
@@ -15,6 +19,7 @@ export const persistedReducer = persistReducer(
   combineReducers({
     notification: notificationReducer,
     user: userReducer,
+    accessToken: accessTokenReducer,
   })
 );
 
