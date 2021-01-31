@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -7,6 +7,8 @@ import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import { useHistory } from "react-router-dom";
+import { UserContext } from "../../context/UserContext";
+import { UserDetails } from "../UserDetails";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ApplicationBar() {
   const history = useHistory();
+  const { isUserLogged } = useContext(UserContext);
   const classes = useStyles();
 
   function handleClick() {
@@ -43,9 +46,12 @@ export default function ApplicationBar() {
           <Typography variant="h6" className={classes.title}>
             Weather prediction
           </Typography>
-          <Button onClick={handleClick} color="inherit">
-            Login
-          </Button>
+          {!isUserLogged() && (
+            <Button onClick={handleClick} color="inherit">
+              Login
+            </Button>
+          )}
+          {isUserLogged() && <UserDetails />}
         </Toolbar>
       </AppBar>
     </div>

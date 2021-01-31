@@ -9,9 +9,13 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
-import { ApiInterceptorContext } from "../context/ApiInterceptorContext";
-import { environments } from "../../environments";
+import { Link, useHistory } from "react-router-dom";
+import { ApiInterceptorContext } from "../../context/ApiInterceptorContext";
+import { environments } from "../../../environments";
+import { useDispatch } from "react-redux";
+import jwt_decode from "jwt-decode";
+import { User } from "../../model/model";
+import { initUser } from "../../store/app.store.action";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -48,15 +52,20 @@ export default function SignIn() {
     defaultValues: defaultValues,
     mode: "onChange",
   });
+  const history = useHistory();
   const { axiosInstance } = useContext(ApiInterceptorContext);
+  const dispatch = useDispatch();
   const classes = useStyles();
 
   const onSubmit = (userCredentials) => {
     console.log(userCredentials);
     axiosInstance
       .post(`${environments.API}/signin`, userCredentials)
-      .then(({ data }) => {
-        console.log(data);
+      .then((resp) => {
+        //@ts-ignore
+        const user: User = jwt_decode(resp?.data?.access_token).identity;
+        dispatch(initUser(user));
+        history.push("/prediction");
       });
     reset();
   };
