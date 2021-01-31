@@ -18,7 +18,7 @@ enum HttpMethod {
 
 const axiosInstance = axios.create({
   baseURL: `${environments.API}`,
-  headers: {}
+  headers: {},
 });
 
 export const ApiInterceptorContext = createContext({
@@ -33,7 +33,8 @@ export function ApiInterceptorContextProvider({ children }) {
   let responseInterceptor = null;
 
   if (accessToken) {
-    axiosInstance.defaults.headers[HttpHeaders.AUTHORIZATION] = 'Bearer ' + accessToken;
+    axiosInstance.defaults.headers[HttpHeaders.AUTHORIZATION] =
+      "Bearer " + accessToken;
   }
 
   useEffect(() => {
@@ -42,7 +43,7 @@ export function ApiInterceptorContextProvider({ children }) {
   }, []);
 
   const applyInterceptors = () => {
-    console.log('*** applyInterceptors()')
+    console.log("*** applyInterceptors()");
     requestInterceptor = axiosInstance.interceptors.request.use(
       (axiosConfig) => handleRequestConfig(axiosConfig),
       (error) => handleRequestError(error)
@@ -58,7 +59,9 @@ export function ApiInterceptorContextProvider({ children }) {
     return Promise.reject(error);
   };
 
-  const handleRequestConfig = (axiosConfig: AxiosRequestConfig): AxiosRequestConfig => {
+  const handleRequestConfig = (
+    axiosConfig: AxiosRequestConfig
+  ): AxiosRequestConfig => {
     console.log("*** handleRequestConfig()");
     return axiosConfig;
   };

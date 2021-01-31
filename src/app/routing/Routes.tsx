@@ -1,8 +1,8 @@
 import React from "react";
-import { Route, Switch } from "react-router-dom";
+import { Switch } from "react-router-dom";
 import SignIn from "../components/auth/SignIn";
 import SignUp from "../components/auth/SignUp";
-import { WeatherPredictor } from "../components/WeatherPredictor";
+import { Dashboard } from "../components/Dashboard";
 import { UserRole } from "../model/model";
 import { PrivateRoute } from "./PrivateRoute";
 import { PublicRoute } from "./PublicRoute";
@@ -27,7 +27,7 @@ const routes: RouteModel[] = [
   },
   {
     path: "/prediction",
-    component: WeatherPredictor,
+    component: Dashboard,
     protected: true,
     routePrivilege: UserRole.USER,
   },
