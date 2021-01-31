@@ -70,8 +70,6 @@ export default function SignIn() {
         const user: User = jwt_decode(data.access_token).identity;
         dispatch(initUser(user));
         dispatch(addAccessToken({ access_token: data.access_token }));
-        axiosInstance.defaults.headers[HttpHeaders.AUTHORIZATION] =
-          "Bearer " + data.access_token;
         history.push("/prediction");
       });
     reset();

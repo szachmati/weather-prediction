@@ -1,7 +1,8 @@
-import React from "react";
+import React, {useContext, useEffect} from "react";
 import { selectUser } from "../store/app.store.selector";
 import { useSelector } from "react-redux";
 import { makeStyles, Typography } from "@material-ui/core";
+import {ApiInterceptorContext, HttpHeaders} from "../context/ApiInterceptorContext";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -17,7 +18,17 @@ const useStyles = makeStyles((theme) => ({
 
 export const WeatherPredictor = () => {
   const user = useSelector(selectUser);
+  const { axiosInstance } = useContext(ApiInterceptorContext);
   const classes = useStyles();
+
+  //TODO test
+  useEffect(() => {
+    axiosInstance.get('/user').then((resp) => {
+      console.log(resp);
+    }).catch((error) => {
+      console.error(error);
+    })
+  }, [])
 
   return (
     <div className={classes.container}>

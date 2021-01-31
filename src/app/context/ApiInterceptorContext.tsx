@@ -18,6 +18,7 @@ enum HttpMethod {
 
 const axiosInstance = axios.create({
   baseURL: `${environments.API}`,
+  headers: {}
 });
 
 export const ApiInterceptorContext = createContext({
@@ -27,10 +28,13 @@ export const ApiInterceptorContext = createContext({
 export function ApiInterceptorContextProvider({ children }) {
   const dispatch = useDispatch();
   const accessToken = useSelector(selectAccessToken);
-  console.log(accessToken);
 
   let requestInterceptor = null;
   let responseInterceptor = null;
+
+  if (accessToken) {
+    axiosInstance.defaults.headers[HttpHeaders.AUTHORIZATION] = 'Bearer ' + accessToken;
+  }
 
   useEffect(() => {
     applyInterceptors();
@@ -38,6 +42,7 @@ export function ApiInterceptorContextProvider({ children }) {
   }, []);
 
   const applyInterceptors = () => {
+    console.log('*** applyInterceptors()')
     requestInterceptor = axiosInstance.interceptors.request.use(
       (axiosConfig) => handleRequestConfig(axiosConfig),
       (error) => handleRequestError(error)
@@ -53,11 +58,8 @@ export function ApiInterceptorContextProvider({ children }) {
     return Promise.reject(error);
   };
 
-  const handleRequestConfig = (axiosConfig: AxiosRequestConfig) => {
-    console.log("handleRequestConfig");
-    // axios.defaults.headers.common[HttpHeaders.AUTHORIZATION] =
-    //   "Bearer " + localStorage.getItem("access_token");
-    axiosConfig.headers[HttpHeaders.AUTHORIZATION] = 'Bearer ' + accessToken;
+  const handleRequestConfig = (axiosConfig: AxiosRequestConfig): AxiosRequestConfig => {
+    console.log("*** handleRequestConfig()");
     return axiosConfig;
   };
 
