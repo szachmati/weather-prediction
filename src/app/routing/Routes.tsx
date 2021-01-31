@@ -26,9 +26,9 @@ const routes: RouteModel[] = [
     protected: false,
   },
   {
-    path: "/prediction",
+    path: "/dashboard",
     component: Dashboard,
-    protected: true,
+    protected: false,
     routePrivilege: UserRole.USER,
   },
 ];
@@ -36,6 +36,11 @@ const routes: RouteModel[] = [
 function Content() {
   return (
     <Switch>
+      <PublicRoute
+          exact
+          path="/"
+          component={Dashboard}
+      />
       {routes.map((route, index) => {
         return !route.protected ? (
           <PublicRoute
@@ -47,7 +52,6 @@ function Content() {
         ) : (
           <PrivateRoute
             key={index}
-            exact
             routePrivilege={route.routePrivilege}
             component={route.component}
           />
