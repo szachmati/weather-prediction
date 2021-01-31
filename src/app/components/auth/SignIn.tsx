@@ -65,7 +65,7 @@ export default function SignIn() {
         //@ts-ignore
         const user: User = jwt_decode(resp?.data?.access_token).identity;
         dispatch(initUser(user));
-        history.push("/prediction")
+        history.push("/prediction");
       });
     reset();
   };
