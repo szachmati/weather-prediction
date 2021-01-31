@@ -5,6 +5,7 @@ import SignUp from "../components/auth/SignUp";
 import { WeatherPredictor } from "../components/WeatherPredictor";
 import { UserRole } from "../model/model";
 import { PrivateRoute } from "./PrivateRoute";
+import { PublicRoute } from "./PublicRoute";
 
 interface RouteModel {
   path: string;
@@ -35,10 +36,9 @@ const routes: RouteModel[] = [
 function Content() {
   return (
     <Switch>
-      <Route exact path="/" component={SignIn} />
       {routes.map((route, index) => {
         return !route.protected ? (
-          <Route
+          <PublicRoute
             key={index}
             exact
             path={route.path}
@@ -46,9 +46,10 @@ function Content() {
           />
         ) : (
           <PrivateRoute
+            key={index}
+            exact
             routePrivilege={route.routePrivilege}
             component={route.component}
-            key={index}
           />
         );
       })}

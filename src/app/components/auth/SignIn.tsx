@@ -71,7 +71,7 @@ export default function SignIn() {
         dispatch(initUser(user));
         axiosInstance.defaults.headers[HttpHeaders.AUTHORIZATION] =
           "Bearer " + data.access_token;
-        localStorage.setItem("access_token", data.access_token);
+        // localStorage.setItem("access_token", data.access_token);
         history.push("/prediction");
       });
     reset();

@@ -19,8 +19,10 @@ export const PrivateRoute = ({
       render={(props) => {
         return isUserAuthorized() ? (
           <Component {...props} />
+        ) : isUserLogged() ? (
+          <Redirect to="/ " />
         ) : (
-          <Redirect to="/signin " />
+          <Redirect to="/signin" />
         );
       }}
     />
