@@ -10,7 +10,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { useForm } from "react-hook-form";
 import { Link, useHistory } from "react-router-dom";
-import { ApiInterceptorContext } from "../../context/ApiInterceptorContext";
+import {
+  ApiInterceptorContext,
+  HttpHeaders,
+} from "../../context/ApiInterceptorContext";
 import { environments } from "../../../environments";
 import { useDispatch } from "react-redux";
 import jwt_decode from "jwt-decode";
@@ -61,10 +64,14 @@ export default function SignIn() {
     console.log(userCredentials);
     axiosInstance
       .post(`${environments.API}/signin`, userCredentials)
-      .then((resp) => {
+      .then(({ data }) => {
+        console.log(data);
         //@ts-ignore
-        const user: User = jwt_decode(resp?.data?.access_token).identity;
+        const user: User = jwt_decode(data.access_token).identity;
         dispatch(initUser(user));
+        axiosInstance.defaults.headers[HttpHeaders.AUTHORIZATION] =
+          "Bearer " + data.access_token;
+        localStorage.setItem("access_token", data.access_token);
         history.push("/prediction");
       });
     reset();

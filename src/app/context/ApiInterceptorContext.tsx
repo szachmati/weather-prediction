@@ -1,5 +1,5 @@
 import React, { createContext, useEffect } from "react";
-import axios, { AxiosError, AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 import { environments } from "../../environments";
 import { useDispatch } from "react-redux";
 import { showNotification } from "../store/app.store.action";
@@ -25,8 +25,8 @@ export const ApiInterceptorContext = createContext({
 export function ApiInterceptorContextProvider({ children }) {
   const dispatch = useDispatch();
 
-  let requestInterceptor;
-  let responseInterceptor;
+  let requestInterceptor = null;
+  let responseInterceptor = null;
 
   useEffect(() => {
     applyInterceptors();
@@ -35,13 +35,26 @@ export function ApiInterceptorContextProvider({ children }) {
 
   const applyInterceptors = () => {
     requestInterceptor = axiosInstance.interceptors.request.use(
-      (axiosConfig) => axiosConfig,
-      (error) => Promise.reject(error)
+      (axiosConfig) => handleRequestConfig(axiosConfig),
+      (error) => handleRequestError(error)
     );
     responseInterceptor = axiosInstance.interceptors.response.use(
       (axiosResponse) => handleResponseSuccess(axiosResponse),
       (error) => handleResponseError(error)
     );
+  };
+
+  const handleRequestError = (error) => {
+    console.log(error);
+    return Promise.reject(error);
+  };
+
+  const handleRequestConfig = (axiosConfig: AxiosRequestConfig) => {
+    console.log("handleRequestConfig");
+    axios.defaults.headers.common[HttpHeaders.AUTHORIZATION] =
+      "Bearer " + localStorage.getItem("access_token");
+    // axiosConfig.headers[HttpHeaders.AUTHORIZATION] = 'Bearer ' + localStorage.getItem("access_token");
+    return axiosConfig;
   };
 
   const handleResponseSuccess = (axiosResponse: AxiosResponse) => {

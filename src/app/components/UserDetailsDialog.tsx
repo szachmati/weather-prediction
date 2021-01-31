@@ -9,9 +9,9 @@ import {
   Typography,
 } from "@material-ui/core";
 import { User } from "../model/model";
-import { useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { logout } from '../store/app.store.action'
+import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logout } from "../store/app.store.action";
 
 interface UserDetailsDialogProps {
   onCancel: () => void;
@@ -26,9 +26,9 @@ export const UserDetailsDialog = (props: UserDetailsDialogProps) => {
 
   const handleLogout = () => {
     onCancel();
-    history.push('/signin')
+    history.push("/signin");
     dispatch(logout());
-  }
+  };
 
   return (
     <Dialog open={open} fullScreen={false} onClose={onCancel}>
