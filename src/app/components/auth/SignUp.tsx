@@ -10,9 +10,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { environments } from "../../environments";
-import { User, UserRole } from "../model/model";
-import { ApiInterceptorContext } from "../context/ApiInterceptorContext";
+import { environments } from "../../../environments";
+import { User, UserRole } from "../../model/model";
+import { ApiInterceptorContext } from "../../context/ApiInterceptorContext";
 
 const useStyles = makeStyles((theme) => ({
   paper: {

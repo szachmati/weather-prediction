@@ -3,7 +3,7 @@ import "./App.css";
 import Content from "./app/routing/Routes";
 import ApplicationBar from "./app/components/navbar/AppBar";
 import { ApiInterceptorContextProvider } from "./app/context/ApiInterceptorContext";
-import { NotificationMessageHandler } from "./app/components/NotificationMessageHandler";
+import { NotificationMessageHandler } from "./app/components/alert/NotificationMessageHandler";
 
 export default function App() {
   return (

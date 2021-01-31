@@ -1,12 +1,14 @@
 import React from "react";
-import { Switch, Route } from "react-router-dom";
-import SignIn from "../components/SignIn";
-import SignUp from "../components/SignUp";
+import {Route, Switch} from "react-router-dom";
+import SignIn from "../components/auth/SignIn";
+import SignUp from "../components/auth/SignUp";
+import {WeatherPredictor} from "../components/WeatherPredictor";
+import {UserRole} from "../model/model";
 
 interface RouteModel {
   path: string;
   component: React.ComponentType<any>;
-  routePrivilege?: string;
+  routePrivilege?: UserRole;
 }
 
 const routes: RouteModel[] = [
@@ -18,6 +20,11 @@ const routes: RouteModel[] = [
     path: "/signup",
     component: SignUp,
   },
+  {
+    path: "/prediction",
+    component: WeatherPredictor,
+    routePrivilege: UserRole.USER
+  }
 ];
 
 function Content() {
