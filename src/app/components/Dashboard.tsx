@@ -11,6 +11,7 @@ import { PredictWeatherButtons } from "./prediction/PredictWeatherButtons";
 import { useDispatch } from "react-redux";
 import { showNotification } from "../store/app.store.action";
 import { Severity } from "./alert/Info";
+import { WeatherDto } from "../model/model";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -49,7 +50,7 @@ export const Dashboard = () => {
   const [showBackdrop, setShowBackdrop] = useState(false);
   const classes = useStyles();
 
-  const handleSubmit = (data) => {
+  const handleSubmit = (data: WeatherDto) => {
     console.log(data);
     dispatch(
       showNotification({
@@ -58,9 +59,16 @@ export const Dashboard = () => {
       })
     );
     setShowBackdrop(true);
-    setTimeout(() => {
-      setShowBackdrop(false);
-    }, 5000);
+    axiosInstance
+      .post("/predict", data)
+      .then((resp) => {
+        console.log(resp);
+        setShowBackdrop(false);
+      })
+      .catch((error) => {
+        console.error(error);
+        setShowBackdrop(false);
+      });
   };
 
   return (

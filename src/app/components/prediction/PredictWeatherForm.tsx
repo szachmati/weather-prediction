@@ -1,7 +1,8 @@
 import React from "react";
-import { Button, Container, Grid, TextField } from "@material-ui/core";
+import { Button, Grid, TextField } from "@material-ui/core";
 import { useForm } from "react-hook-form";
 import { FormSelectAsController } from "../common/form/FormSelectAsController";
+import { WeatherCondition } from "../../model/model";
 
 interface PredictWeatherFormProps {
   classes: any;
@@ -12,7 +13,7 @@ interface PredictWeatherFormProps {
 export const PredictWeatherForm = (props: PredictWeatherFormProps) => {
   const { reset, handleSubmit, register, control } = useForm();
   const { classes, isUserLogged, onSubmit } = props;
-  const conditions: string[] = ["maxtempC", "mintempC", "maxWindKmph"];
+  const conditions: WeatherCondition[] = [WeatherCondition.MINTEMP];
 
   const submitForm = (data) => {
     console.log(data);
