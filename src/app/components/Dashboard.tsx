@@ -8,6 +8,9 @@ import clsx from "clsx";
 import { SimpleBackdrop } from "./common/Backdrop";
 import { PredictWeatherForm } from "./prediction/PredictWeatherForm";
 import { PredictWeatherButtons } from "./prediction/PredictWeatherButtons";
+import { useDispatch } from "react-redux";
+import { showNotification } from "../store/app.store.action";
+import { Severity } from "./alert/Info";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -40,12 +43,19 @@ const useStyles = makeStyles((theme) => ({
 export const Dashboard = () => {
   const user = useSelector(selectUser);
   const { axiosInstance } = useContext(ApiInterceptorContext);
-  const { isUserLogged, hasRole } = useContext(UserContext);
+  const { isUserLogged } = useContext(UserContext);
+  const dispatch = useDispatch();
   const [showBackdrop, setShowBackdrop] = useState(false);
   const classes = useStyles();
 
   const handleSubmit = (data) => {
     console.log(data);
+    dispatch(
+      showNotification({
+        severity: Severity.INFO,
+        message: "Processing request make take some time. Please be patient",
+      })
+    );
     setShowBackdrop(true);
     setTimeout(() => {
       setShowBackdrop(false);
