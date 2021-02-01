@@ -70,7 +70,7 @@ export default function SignIn() {
         const user: User = jwt_decode(data.access_token).identity;
         dispatch(initUser(user));
         dispatch(addAccessToken({ access_token: data.access_token }));
-        history.push("/prediction");
+        history.push("/dashboard");
       });
     reset();
   };

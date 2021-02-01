@@ -1,13 +1,13 @@
 import React, { useContext, useState } from "react";
 import { selectUser } from "../store/app.store.selector";
-import { showNotification } from "../store/app.store.action";
 import { useSelector } from "react-redux";
-import { Button, makeStyles, Typography } from "@material-ui/core";
+import { makeStyles, Typography } from "@material-ui/core";
 import { ApiInterceptorContext } from "../context/ApiInterceptorContext";
 import { UserContext } from "../context/UserContext";
-import { useHistory, Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { Severity } from "./alert/Info";
+import clsx from "clsx";
+import { SimpleBackdrop } from "./common/Backdrop";
+import { PredictWeatherForm } from "./prediction/PredictWeatherForm";
+import { PredictWeatherButtons } from "./prediction/PredictWeatherButtons";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -19,51 +19,66 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: theme.spacing(3),
   },
   text: {
-    fontSize: 20,
+    fontSize: 22,
     marginBottom: theme.spacing(3),
+  },
+  button: {
+    fontSize: 18,
+  },
+  margin: {
+    marginRight: 6,
+  },
+  form: {
+    width: "100%", // Fix IE 11 issue.
+    marginTop: theme.spacing(1),
+  },
+  inlineFlex: {
+    display: "inline-flex",
   },
 }));
 
 export const Dashboard = () => {
   const user = useSelector(selectUser);
-  const dispatch = useDispatch();
   const { axiosInstance } = useContext(ApiInterceptorContext);
   const { isUserLogged, hasRole } = useContext(UserContext);
-  const [showLoginInfo, setShowLoginInfo] = useState(false);
+  const [showBackdrop, setShowBackdrop] = useState(false);
   const classes = useStyles();
 
-  const handlePrediction = () => {
-    if (isUserLogged()) {
-      //TODO in progress
-    } else {
-      dispatch(
-        showNotification({
-          severity: Severity.INFO,
-          message: "You need to be sign in  to use this function",
-        })
-      );
-      setShowLoginInfo(true);
-    }
+  const handleSubmit = (data) => {
+    console.log(data);
+    setShowBackdrop(true);
+    setTimeout(() => {
+      setShowBackdrop(false);
+    }, 5000);
   };
 
   return (
-    <div className={classes.container}>
-      <Typography className={classes.text}>Hello</Typography>
-      {isUserLogged() && (
+    <React.Fragment>
+      <div className={classes.container}>
+        <div className={classes.inlineFlex}>
+          <Typography className={clsx(classes.text, classes.margin)}>
+            Hello
+          </Typography>
+          {isUserLogged() && (
+            <Typography className={classes.text}>
+              {user.name} {user.surname}
+            </Typography>
+          )}
+        </div>
         <Typography className={classes.text}>
-          {user.name} {user.surname}
+          It's nice day to predict weather 🙃
         </Typography>
-      )}
-      <Typography className={classes.text}>
-        It's nice day to predict weather 🙃
-      </Typography>
-      {!showLoginInfo ? (
-        <Button variant="outlined" color="primary" onClick={handlePrediction}>
-          Predict
-        </Button>
-      ) : (
-        <Link to="/signin">Signin</Link>
-      )}
-    </div>
+        <PredictWeatherButtons
+          classes={classes}
+          isUserLogged={isUserLogged()}
+        />
+        <PredictWeatherForm
+          classes={classes}
+          isUserLogged={isUserLogged()}
+          onSubmit={handleSubmit}
+        />
+      </div>
+      <SimpleBackdrop show={showBackdrop} />
+    </React.Fragment>
   );
 };

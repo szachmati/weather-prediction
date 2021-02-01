@@ -8,10 +8,10 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
-import { User } from "../model/model";
+import { User } from "../../model/model";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { logout, removeAccessToken } from "../store/app.store.action";
+import { logout, removeAccessToken } from "../../store/app.store.action";
 
 interface UserDetailsDialogProps {
   onCancel: () => void;

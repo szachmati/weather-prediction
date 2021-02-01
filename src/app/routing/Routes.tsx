@@ -28,7 +28,7 @@ const routes: RouteModel[] = [
   {
     path: "/dashboard",
     component: Dashboard,
-    protected: false,
+    protected: true,
     routePrivilege: UserRole.USER,
   },
 ];
