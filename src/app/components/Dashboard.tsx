@@ -38,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
   inlineFlex: {
     display: "inline-flex",
   },
+  formField: { width: 350, marginBottom: 20 },
 }));
 
 export const Dashboard = () => {

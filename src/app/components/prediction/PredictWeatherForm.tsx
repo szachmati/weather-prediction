@@ -1,6 +1,7 @@
 import React from "react";
 import { Button, Container, Grid, TextField } from "@material-ui/core";
 import { useForm } from "react-hook-form";
+import { FormSelectAsController } from "../common/form/FormSelectAsController";
 
 interface PredictWeatherFormProps {
   classes: any;
@@ -9,8 +10,9 @@ interface PredictWeatherFormProps {
 }
 
 export const PredictWeatherForm = (props: PredictWeatherFormProps) => {
-  const { reset, handleSubmit, register } = useForm();
+  const { reset, handleSubmit, register, control } = useForm();
   const { classes, isUserLogged, onSubmit } = props;
+  const conditions: string[] = ["maxtempC", "mintempC", "maxWindKmph"];
 
   const submitForm = (data) => {
     console.log(data);
@@ -25,7 +27,7 @@ export const PredictWeatherForm = (props: PredictWeatherFormProps) => {
         <form onSubmit={handleSubmit(submitForm)}>
           <Grid item>
             <TextField
-              style={{ width: 350, marginBottom: 20 }}
+              className={classes.formField}
               variant="outlined"
               label="City"
               name="city"
@@ -35,14 +37,13 @@ export const PredictWeatherForm = (props: PredictWeatherFormProps) => {
             />
           </Grid>
           <Grid item>
-            <TextField
-              style={{ width: 350, marginBottom: 20 }}
-              variant="outlined"
+            <FormSelectAsController
+              control={control}
+              defaultValue=""
               label="Condition"
               name="condition"
-              placeholder="Choose weather condition you want to predict"
-              inputRef={register}
-              required
+              options={conditions}
+              classes={Array.of(classes.formField)}
             />
           </Grid>
           <Grid container direction="row" spacing={2}>
