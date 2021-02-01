@@ -36,11 +36,7 @@ const routes: RouteModel[] = [
 function Content() {
   return (
     <Switch>
-      <PublicRoute
-          exact
-          path="/"
-          component={Dashboard}
-      />
+      <PublicRoute exact path="/" component={Dashboard} />
       {routes.map((route, index) => {
         return !route.protected ? (
           <PublicRoute
