@@ -8,11 +8,12 @@ interface PredictWeatherFormProps {
   classes: any;
   isUserLogged: boolean;
   onSubmit: (data) => void;
+  onReset: () => void;
 }
 
 export const PredictWeatherForm = (props: PredictWeatherFormProps) => {
   const { reset, handleSubmit, register, control } = useForm();
-  const { classes, isUserLogged, onSubmit } = props;
+  const { classes, isUserLogged, onSubmit, onReset } = props;
   const conditions: WeatherCondition[] = [WeatherCondition.MINTEMP];
 
   const submitForm = (data) => {
@@ -20,7 +21,10 @@ export const PredictWeatherForm = (props: PredictWeatherFormProps) => {
     onSubmit(data);
   };
 
-  const handleReset = () => reset();
+  const handleReset = () => {
+    reset();
+    onReset();
+  };
 
   return isUserLogged ? (
     <div>

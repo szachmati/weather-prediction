@@ -12,6 +12,7 @@ import { useDispatch } from "react-redux";
 import { showNotification } from "../store/app.store.action";
 import { Severity } from "./alert/Info";
 import { WeatherDto } from "../model/model";
+import { LineChart } from "./prediction/LineChart";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -50,7 +51,7 @@ interface PredictedData {
 export const Dashboard = () => {
   const user = useSelector(selectUser);
   const { axiosInstance } = useContext(ApiInterceptorContext);
-  const { isUserLogged } = useContext(UserContext);
+  const { isUserLogged, hasRole } = useContext(UserContext);
   const dispatch = useDispatch();
   const [showBackdrop, setShowBackdrop] = useState(false);
   const [predictionResponse, setPredictionResponse] = useState<PredictedData[]>(
@@ -82,6 +83,10 @@ export const Dashboard = () => {
       });
   };
 
+  const handleReset = () => {
+    setPredictionResponse([]);
+  };
+
   return (
     <React.Fragment>
       <div className={classes.container}>
@@ -106,17 +111,15 @@ export const Dashboard = () => {
           classes={classes}
           isUserLogged={isUserLogged()}
           onSubmit={handleSubmit}
+          onReset={handleReset}
         />
       </div>
+      <LineChart
+        label="Chart"
+        dataArray={predictionResponse.map((resp) => resp.y)}
+        labels={predictionResponse.map((resp) => resp.x)}
+      />
       <SimpleBackdrop show={showBackdrop} />
-      {predictionResponse?.map((element, index) => {
-        return (
-          <div>
-            index:{element.x} element: {element.y}
-          </div>
-        );
-      })}
-      <canvas id="canvas"></canvas>
     </React.Fragment>
   );
 };
