@@ -42,13 +42,20 @@ const useStyles = makeStyles((theme) => ({
   formField: { width: 350, marginBottom: 20 },
 }));
 
+interface PredictedData {
+  x: number;
+  y: number;
+}
+
 export const Dashboard = () => {
   const user = useSelector(selectUser);
   const { axiosInstance } = useContext(ApiInterceptorContext);
   const { isUserLogged } = useContext(UserContext);
   const dispatch = useDispatch();
   const [showBackdrop, setShowBackdrop] = useState(false);
-  const [predictionResponse, setPredictionResponse] = useState<any>(null);
+  const [predictionResponse, setPredictionResponse] = useState<PredictedData[]>(
+    []
+  );
   const classes = useStyles();
 
   const handleSubmit = (data: WeatherDto) => {
@@ -66,7 +73,7 @@ export const Dashboard = () => {
       })
       .then(({ data }) => {
         console.log(data);
-        setPredictionResponse(data);
+        setPredictionResponse(convertData(data));
         setShowBackdrop(false);
       })
       .catch((error) => {
@@ -102,35 +109,26 @@ export const Dashboard = () => {
         />
       </div>
       <SimpleBackdrop show={showBackdrop} />
-      {predictionResponse?.map((element) => {
-        return <div>{element}</div>;
+      {predictionResponse?.map((element, index) => {
+        return (
+          <div>
+            index:{element.x} element: {element.y}
+          </div>
+        );
       })}
       <canvas id="canvas"></canvas>
     </React.Fragment>
   );
 };
 
-const convertPredictResponse = (predictData) => {
-  let labels = {
-    name: "name",
-    name2: "name2",
-  };
-
-  let data = predictData.jsonarray.map((elem) => {
-    return elem;
+const convertData = (data: Array<any>) => {
+  let formatted: PredictedData[] = [];
+  data.map((element, index) => {
+    formatted.push({
+      x: index,
+      y: element[0],
+    });
   });
-
-  let config = {
-    type: "line",
-    data: {
-      labels: labels,
-      datasets: [
-        {
-          label: "Graph Line",
-          data: data,
-          backgroundColor: "rgba(0, 119, 204, 0.3)",
-        },
-      ],
-    },
-  };
+  console.log(formatted);
+  return formatted;
 };
