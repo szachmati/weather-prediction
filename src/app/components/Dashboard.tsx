@@ -1,7 +1,13 @@
 import React, { useContext, useState } from "react";
 import { selectUser } from "../store/app.store.selector";
 import { useSelector } from "react-redux";
-import { makeStyles, Typography } from "@material-ui/core";
+import {
+  Box,
+  Collapse,
+  IconButton,
+  makeStyles,
+  Typography,
+} from "@material-ui/core";
 import { ApiInterceptorContext } from "../context/ApiInterceptorContext";
 import { UserContext } from "../context/UserContext";
 import clsx from "clsx";
@@ -13,6 +19,7 @@ import { showNotification } from "../store/app.store.action";
 import { Severity } from "./alert/Info";
 import { WeatherDto } from "../model/model";
 import { LineChart } from "./prediction/LineChart";
+import { ArrowDownward, ArrowUpward } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -54,6 +61,7 @@ export const Dashboard = () => {
   const { isUserLogged, hasRole } = useContext(UserContext);
   const dispatch = useDispatch();
   const [showBackdrop, setShowBackdrop] = useState(false);
+  const [showForm, setShowForm] = useState(true);
   const [predictionResponse, setPredictionResponse] = useState<PredictedData[]>(
     []
   );
@@ -89,36 +97,48 @@ export const Dashboard = () => {
 
   return (
     <React.Fragment>
-      <div className={classes.container}>
-        <div className={classes.inlineFlex}>
-          <Typography className={clsx(classes.text, classes.margin)}>
-            Hello
-          </Typography>
-          {isUserLogged() && (
-            <Typography className={classes.text}>
-              {user.name} {user.surname}
+      {isUserLogged() && (
+        <Box>
+          <IconButton onClick={() => setShowForm(!showForm)}>
+            {showForm ? <ArrowUpward /> : <ArrowDownward />}
+          </IconButton>
+        </Box>
+      )}
+      <Collapse unmountOnExit timeout="auto" in={showForm}>
+        <div className={classes.container}>
+          <div className={classes.inlineFlex}>
+            <Typography className={clsx(classes.text, classes.margin)}>
+              Hello
             </Typography>
-          )}
+            {isUserLogged() && (
+              <Typography className={classes.text}>
+                {user.name} {user.surname}
+              </Typography>
+            )}
+          </div>
+          <Typography className={classes.text}>
+            It's nice day to predict weather 🙃
+          </Typography>
+          <PredictWeatherButtons
+            classes={classes}
+            isUserLogged={isUserLogged()}
+          />
+          <PredictWeatherForm
+            classes={classes}
+            isUserLogged={isUserLogged()}
+            onSubmit={handleSubmit}
+            onReset={handleReset}
+          />
         </div>
-        <Typography className={classes.text}>
-          It's nice day to predict weather 🙃
-        </Typography>
-        <PredictWeatherButtons
-          classes={classes}
-          isUserLogged={isUserLogged()}
+      </Collapse>
+      {isUserLogged() && (
+        <LineChart
+          label="Chart"
+          dataArray={predictionResponse.map((resp) => resp.y)}
+          labels={predictionResponse.map((resp) => resp.x)}
         />
-        <PredictWeatherForm
-          classes={classes}
-          isUserLogged={isUserLogged()}
-          onSubmit={handleSubmit}
-          onReset={handleReset}
-        />
-      </div>
-      <LineChart
-        label="Chart"
-        dataArray={predictionResponse.map((resp) => resp.y)}
-        labels={predictionResponse.map((resp) => resp.x)}
-      />
+      )}
+
       <SimpleBackdrop show={showBackdrop} />
     </React.Fragment>
   );

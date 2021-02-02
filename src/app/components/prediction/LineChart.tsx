@@ -39,7 +39,7 @@ export const LineChart = (props: LineChartProps) => {
 
   return (
     <Container maxWidth={"xl"}>
-      <Line data={data} options={options} width={100} height={100} />
+      <Line data={data} options={options} width={100} height={25} />
     </Container>
   );
 };
