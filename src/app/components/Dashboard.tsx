@@ -48,6 +48,7 @@ export const Dashboard = () => {
   const { isUserLogged } = useContext(UserContext);
   const dispatch = useDispatch();
   const [showBackdrop, setShowBackdrop] = useState(false);
+  const [predictionResponse, setPredictionResponse] = useState<any>(null);
   const classes = useStyles();
 
   const handleSubmit = (data: WeatherDto) => {
@@ -63,8 +64,9 @@ export const Dashboard = () => {
       .get("/predict", {
         params: { city: data.city, condition: data.condition },
       })
-      .then((resp) => {
-        console.log(resp);
+      .then(({ data }) => {
+        console.log(data);
+        setPredictionResponse(data);
         setShowBackdrop(false);
       })
       .catch((error) => {
@@ -100,6 +102,35 @@ export const Dashboard = () => {
         />
       </div>
       <SimpleBackdrop show={showBackdrop} />
+      {predictionResponse?.map((element) => {
+        return <div>{element}</div>;
+      })}
+      <canvas id="canvas"></canvas>
     </React.Fragment>
   );
+};
+
+const convertPredictResponse = (predictData) => {
+  let labels = {
+    name: "name",
+    name2: "name2",
+  };
+
+  let data = predictData.jsonarray.map((elem) => {
+    return elem;
+  });
+
+  let config = {
+    type: "line",
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: "Graph Line",
+          data: data,
+          backgroundColor: "rgba(0, 119, 204, 0.3)",
+        },
+      ],
+    },
+  };
 };
