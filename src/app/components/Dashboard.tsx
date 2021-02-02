@@ -60,7 +60,9 @@ export const Dashboard = () => {
     );
     setShowBackdrop(true);
     axiosInstance
-      .post("/predict", data)
+      .get("/predict", {
+        params: { city: data.city, condition: data.condition },
+      })
       .then((resp) => {
         console.log(resp);
         setShowBackdrop(false);
