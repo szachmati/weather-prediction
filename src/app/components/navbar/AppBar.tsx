@@ -8,7 +8,7 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import { useHistory } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
-import { UserDetails } from "../UserDetails";
+import { UserDetails } from "../user/UserDetails";
 
 const useStyles = makeStyles((theme) => ({
   root: {

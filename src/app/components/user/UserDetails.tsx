@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { selectUser } from "../store/app.store.selector";
-import { User } from "../model/model";
+import { selectUser } from "../../store/app.store.selector";
+import { User } from "../../model/model";
 import { Avatar, makeStyles } from "@material-ui/core";
 import { UserDetailsDialog } from "./UserDetailsDialog";
 

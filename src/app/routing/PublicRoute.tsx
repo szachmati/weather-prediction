@@ -9,7 +9,11 @@ export const PublicRoute = ({ component: Component, ...props }) => {
     <Route
       {...props}
       render={(props) => {
-        return !isUserLogged() ? <Component {...props} /> : <Redirect to="/" />;
+        return !isUserLogged() ? (
+          <Component {...props} />
+        ) : (
+          <Redirect to="/dashboard" />
+        );
       }}
     />
   );
