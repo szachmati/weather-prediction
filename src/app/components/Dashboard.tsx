@@ -97,7 +97,7 @@ export const Dashboard = () => {
 
   return (
     <React.Fragment>
-      {isUserLogged() && (
+      {isUserLogged() && predictionResponse.length > 0 && (
         <Box>
           <IconButton onClick={() => setShowForm(!showForm)}>
             {showForm ? <ArrowUpward /> : <ArrowDownward />}
@@ -131,7 +131,7 @@ export const Dashboard = () => {
           />
         </div>
       </Collapse>
-      {isUserLogged() && (
+      {isUserLogged() && predictionResponse.length > 0 && (
         <LineChart
           label="Chart"
           dataArray={predictionResponse.map((resp) => resp.y)}
