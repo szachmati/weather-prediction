@@ -84,9 +84,9 @@ export const Dashboard = () => {
         console.log(data);
         setPredictionResponse(convertData(data));
         setShowBackdrop(false);
+        setShowForm(false);
       })
-      .catch((error) => {
-        console.error(error);
+      .catch(() => {
         setShowBackdrop(false);
       });
   };
