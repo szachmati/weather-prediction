@@ -20,6 +20,7 @@ import { Severity } from "./alert/Info";
 import { WeatherDto } from "../model/model";
 import { LineChart } from "./prediction/LineChart";
 import { ArrowDownward, ArrowUpward } from "@material-ui/icons";
+import { convertToDate } from "../utils/Utils";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -51,8 +52,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface PredictedData {
-  x: number;
+  x: string;
   y: number;
+}
+
+enum DataType {
+  TEST = "TEST",
+  TRAIN = "TRAIN",
 }
 
 export const Dashboard = () => {
@@ -85,8 +91,8 @@ export const Dashboard = () => {
       })
       .then(({ data }) => {
         console.log(data);
-        setPredictionResponse(convertData(data, "trained"));
-        setPredictionTestResponse(convertData(data, "tested"));
+        setPredictionResponse(convertData(data, DataType.TRAIN));
+        setPredictionTestResponse(convertData(data, DataType.TEST));
         setShowBackdrop(false);
         setShowForm(false);
       })
@@ -154,32 +160,35 @@ export const Dashboard = () => {
   );
 };
 
-const convertData = (data: Array<any>, type: String) => {
-  let formatted: PredictedData[] = [];
+const convertData = (data: Array<any>, dataType: DataType) => {
+  let predictedData: PredictedData[] = [];
   const half_length = Math.ceil(data.length / 2);
-  const endDate = new Date();
-  const startDate = endDate; // endDate - data.length/2
-  if (type == "tested") {
-    data.map((element, index) => {
-      formatted.push({
-        x: index,
-        y: element[0],
-      });
-    });
-    console.log(formatted);
-    return formatted;
-  }
+  const startDate = new Date();
+  startDate.setDate(startDate.getDate() - half_length);
 
-  const trained = data.splice(0, half_length);
-
-  if (type == "trained") {
-    trained.map((element, index) => {
-      formatted.push({
-        x: index,
-        y: element[0],
+  switch (dataType) {
+    case DataType.TEST:
+      data.map((element) => {
+        updateDate(startDate);
+        addData(predictedData, element, startDate);
       });
-    });
-    console.log(formatted);
-    return formatted;
+      return predictedData;
+    case DataType.TRAIN:
+      const trained = data.splice(0, half_length);
+      trained.map((element) => {
+        updateDate(startDate);
+        addData(predictedData, element, startDate);
+      });
+      return predictedData;
   }
+};
+
+const updateDate = (currentDate: Date) =>
+  currentDate.setDate(currentDate.getDate() + 1);
+
+const addData = (predictedData, element, startDate) => {
+  predictedData.push({
+    x: convertToDate(startDate, "YYYY-MM-DD"),
+    y: element[0],
+  });
 };

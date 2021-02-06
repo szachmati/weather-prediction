@@ -1,5 +1,5 @@
 import React from "react";
-import { ChartComponentProps, Line } from "react-chartjs-2";
+import { Line } from "react-chartjs-2";
 import { Container } from "@material-ui/core";
 
 interface LineChartProps {
@@ -11,9 +11,7 @@ interface LineChartProps {
 
 export const LineChart = (props: LineChartProps) => {
   const { dataArray, testArray, labels, label } = props;
-  console.log(dataArray);
-  console.log(testArray);
-  console.log(labels);
+
   const data = {
     labels: labels, //["1", "2", "3", "4", "5", "6"],
     datasets: [
@@ -30,7 +28,7 @@ export const LineChart = (props: LineChartProps) => {
         fill: false,
         backgroundColor: "rgb(68,153,6)",
         borderColor: "rgba(212,42,85,0.2)",
-      }
+      },
     ],
   };
 
