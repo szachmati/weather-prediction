@@ -106,17 +106,22 @@ export const Dashboard = () => {
     setPredictionTestResponse([]);
   };
 
+  const showChart = () => {
+    return (
+      isUserLogged() &&
+      predictionResponse.length > 0 &&
+      predictionTestResponse.length > 0
+    );
+  };
   return (
     <React.Fragment>
-      {isUserLogged() &&
-        predictionResponse.length > 0 &&
-        predictionTestResponse.length > 0 && (
-          <Box>
-            <IconButton onClick={() => setShowForm(!showForm)}>
-              {showForm ? <ArrowUpward /> : <ArrowDownward />}
-            </IconButton>
-          </Box>
-        )}
+      {showChart() && (
+        <Box>
+          <IconButton onClick={() => setShowForm(!showForm)}>
+            {showForm ? <ArrowUpward /> : <ArrowDownward />}
+          </IconButton>
+        </Box>
+      )}
       <Collapse unmountOnExit timeout="auto" in={showForm}>
         <div className={classes.container}>
           <div className={classes.inlineFlex}>
@@ -144,16 +149,14 @@ export const Dashboard = () => {
           />
         </div>
       </Collapse>
-      {isUserLogged() &&
-        predictionResponse.length > 0 &&
-        predictionTestResponse.length > 0 && (
-          <LineChart
-            label="Chart"
-            dataArray={predictionResponse.map((resp) => resp.y)}
-            testArray={predictionTestResponse.map((resp) => resp.y)}
-            labels={predictionResponse.map((resp) => resp.x)}
-          />
-        )}
+      {showChart() && (
+        <LineChart
+          label="Chart"
+          dataArray={predictionResponse.map((resp) => resp.y)}
+          testArray={predictionTestResponse.map((resp) => resp.y)}
+          labels={predictionResponse.map((resp) => resp.x)}
+        />
+      )}
 
       <SimpleBackdrop show={showBackdrop} />
     </React.Fragment>
