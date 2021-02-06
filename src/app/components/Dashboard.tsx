@@ -65,9 +65,9 @@ export const Dashboard = () => {
   const [predictionResponse, setPredictionResponse] = useState<PredictedData[]>(
     []
   );
-    const [predictionTestResponse, setPredictionTestResponse] = useState<PredictedData[]>(
-      []
-    );
+  const [predictionTestResponse, setPredictionTestResponse] = useState<
+    PredictedData[]
+  >([]);
   const classes = useStyles();
 
   const handleSubmit = (data: WeatherDto) => {
@@ -85,8 +85,8 @@ export const Dashboard = () => {
       })
       .then(({ data }) => {
         console.log(data);
-        setPredictionResponse(convertData(data, 'trained'));
-        setPredictionTestResponse(convertData(data, 'tested' ));
+        setPredictionResponse(convertData(data, "trained"));
+        setPredictionTestResponse(convertData(data, "tested"));
         setShowBackdrop(false);
       })
       .catch((error) => {
@@ -102,13 +102,15 @@ export const Dashboard = () => {
 
   return (
     <React.Fragment>
-      {isUserLogged() && predictionResponse.length > 0 && predictionTestResponse.length > 0 && (
-        <Box>
-          <IconButton onClick={() => setShowForm(!showForm)}>
-            {showForm ? <ArrowUpward /> : <ArrowDownward />}
-          </IconButton>
-        </Box>
-      )}
+      {isUserLogged() &&
+        predictionResponse.length > 0 &&
+        predictionTestResponse.length > 0 && (
+          <Box>
+            <IconButton onClick={() => setShowForm(!showForm)}>
+              {showForm ? <ArrowUpward /> : <ArrowDownward />}
+            </IconButton>
+          </Box>
+        )}
       <Collapse unmountOnExit timeout="auto" in={showForm}>
         <div className={classes.container}>
           <div className={classes.inlineFlex}>
@@ -136,14 +138,16 @@ export const Dashboard = () => {
           />
         </div>
       </Collapse>
-      {isUserLogged() && predictionResponse.length > 0 && predictionTestResponse.length > 0 && (
-        <LineChart
-          label="Chart"
-          dataArray={predictionResponse.map((resp) => resp.y)}
-          testArray={predictionTestResponse.map((resp) => resp.y)}
-          labels={predictionResponse.map((resp) => resp.x)}
-        />
-      )}
+      {isUserLogged() &&
+        predictionResponse.length > 0 &&
+        predictionTestResponse.length > 0 && (
+          <LineChart
+            label="Chart"
+            dataArray={predictionResponse.map((resp) => resp.y)}
+            testArray={predictionTestResponse.map((resp) => resp.y)}
+            labels={predictionResponse.map((resp) => resp.x)}
+          />
+        )}
 
       <SimpleBackdrop show={showBackdrop} />
     </React.Fragment>
@@ -152,9 +156,10 @@ export const Dashboard = () => {
 
 const convertData = (data: Array<any>, type: String) => {
   let formatted: PredictedData[] = [];
-  var half_length = Math.ceil(data.length / 2);
-
-   if(type == 'tested') {
+  const half_length = Math.ceil(data.length / 2);
+  const endDate = new Date();
+  const startDate = endDate; // endDate - data.length/2
+  if (type == "tested") {
     data.map((element, index) => {
       formatted.push({
         x: index,
@@ -163,19 +168,18 @@ const convertData = (data: Array<any>, type: String) => {
     });
     console.log(formatted);
     return formatted;
-    };
+  }
 
-    var trained = data.splice(0,half_length);
+  const trained = data.splice(0, half_length);
 
-    if(type == 'trained') {
-      trained.map((element, index) => {
-        formatted.push({
-          x: index,
-          y: element[0],
-        });
+  if (type == "trained") {
+    trained.map((element, index) => {
+      formatted.push({
+        x: index,
+        y: element[0],
       });
-      console.log(formatted);
-      return formatted;
-    };
-
+    });
+    console.log(formatted);
+    return formatted;
+  }
 };
