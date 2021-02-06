@@ -36,6 +36,7 @@ export default function ApplicationBar() {
       <AppBar position="static">
         <Toolbar>
           <IconButton
+            onClick={() => history.push("/")}
             edge="start"
             className={classes.menuButton}
             color="inherit"
