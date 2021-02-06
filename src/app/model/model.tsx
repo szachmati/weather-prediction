@@ -17,7 +17,6 @@ export interface WeatherDto {
 }
 
 export enum WeatherCondition {
-  MINTEMP = "mintempC",
   MAXTEMPC = "maxtempC",
   MINTEMPC = "mintempC",
   TOTALSNOW = "totalSnow_cm",

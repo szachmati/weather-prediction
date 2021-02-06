@@ -14,7 +14,7 @@ interface PredictWeatherFormProps {
 export const PredictWeatherForm = (props: PredictWeatherFormProps) => {
   const { reset, handleSubmit, register, control } = useForm();
   const { classes, isUserLogged, onSubmit, onReset } = props;
-  const conditions: WeatherCondition[] = [WeatherCondition.MINTEMP];
+  const conditions: WeatherCondition[] = Object.values(WeatherCondition);
 
   const submitForm = (data) => {
     console.log(data);
