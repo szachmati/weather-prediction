@@ -5,12 +5,14 @@ import { Container } from "@material-ui/core";
 interface LineChartProps {
   label: string;
   dataArray: Array<any>;
+  testArray: Array<any>;
   labels: Array<any>;
 }
 
 export const LineChart = (props: LineChartProps) => {
-  const { dataArray, labels, label } = props;
+  const { dataArray, testArray, labels, label } = props;
   console.log(dataArray);
+  console.log(testArray);
   console.log(labels);
   const data = {
     labels: labels, //["1", "2", "3", "4", "5", "6"],
@@ -22,6 +24,13 @@ export const LineChart = (props: LineChartProps) => {
         backgroundColor: "rgb(66,153,6)",
         borderColor: "rgba(215,42,85,0.2)",
       },
+      {
+        label: label,
+        data: testArray, // [12, 19, 3, 5, 2, 3],
+        fill: false,
+        backgroundColor: "rgb(68,153,6)",
+        borderColor: "rgba(212,42,85,0.2)",
+      }
     ],
   };
 
