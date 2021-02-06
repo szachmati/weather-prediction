@@ -186,7 +186,11 @@ const convertData = (data: Array<any>, dataType: DataType) => {
 const updateDate = (currentDate: Date) =>
   currentDate.setDate(currentDate.getDate() + 1);
 
-const addData = (predictedData, element, startDate) => {
+const addData = (
+  predictedData: PredictedData[],
+  element: any,
+  startDate: Date
+) => {
   predictedData.push({
     x: convertToDate(startDate, "YYYY-MM-DD"),
     y: element[0],
