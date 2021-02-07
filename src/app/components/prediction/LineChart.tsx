@@ -7,10 +7,12 @@ interface LineChartProps {
   dataArray: Array<any>;
   testArray: Array<any>;
   labels: Array<any>;
+  condition: string;
+  city: string;
 }
 
 export const LineChart = (props: LineChartProps) => {
-  const { dataArray, testArray, labels } = props;
+  const { dataArray, testArray, labels, city, condition } = props;
 
   const data = {
     labels: labels, //["1", "2", "3", "4", "5", "6"],
@@ -33,6 +35,10 @@ export const LineChart = (props: LineChartProps) => {
   };
 
   const options = {
+    title: {
+      display: true,
+      text: condition + " in " + city,
+    },
     scales: {
       yAxes: [
         {

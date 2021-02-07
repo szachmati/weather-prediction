@@ -74,10 +74,14 @@ export const Dashboard = () => {
   const [predictionTestResponse, setPredictionTestResponse] = useState<
     PredictedData[]
   >([]);
+  const [city, setCity] = useState<string>("");
+  const [condition, setCondition] = useState<string>("");
   const classes = useStyles();
 
   const handleSubmit = (data: WeatherDto) => {
     console.log(data);
+    setCity(data.city);
+    setCondition(data.condition);
     dispatch(
       showNotification({
         severity: Severity.INFO,
@@ -155,6 +159,8 @@ export const Dashboard = () => {
           dataArray={predictionResponse.map((resp) => resp.y)}
           testArray={predictionTestResponse.map((resp) => resp.y)}
           labels={predictionResponse.map((resp) => resp.x)}
+          city={city}
+          condition={condition}
         />
       )}
 
