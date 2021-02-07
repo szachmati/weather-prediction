@@ -165,23 +165,26 @@ export const Dashboard = () => {
 
 const convertData = (data: Array<any>, dataType: DataType) => {
   let predictedData: PredictedData[] = [];
-  const half_length = Math.ceil(data.length / 2);
-  const startDate = new Date();
-  startDate.setDate(startDate.getDate() - half_length);
+  const startDate = new Date()
 
   switch (dataType) {
     case DataType.TEST:
+      startDate.setDate(startDate.getDate()  - data.length);
       data.map((element) => {
         updateDate(startDate);
         addData(predictedData, element, startDate);
       });
+      console.log(predictedData);
       return predictedData;
     case DataType.TRAIN:
+      const half_length = Math.ceil(data.length / 2);
+      startDate.setDate(startDate.getDate()  - half_length);
       const trained = data.splice(0, half_length);
       trained.map((element) => {
         updateDate(startDate);
         addData(predictedData, element, startDate);
       });
+      console.log(predictedData);
       return predictedData;
   }
 };
