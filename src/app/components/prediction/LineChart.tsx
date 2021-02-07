@@ -16,18 +16,18 @@ export const LineChart = (props: LineChartProps) => {
     labels: labels, //["1", "2", "3", "4", "5", "6"],
     datasets: [
       {
-        label: label,
+        label: 'Predicted',
         data: dataArray, // [12, 19, 3, 5, 2, 3],
         fill: false,
         backgroundColor: "rgb(66,153,6)",
         borderColor: "rgba(215,42,85,0.2)",
       },
       {
-        label: label,
+        label: 'Real',
         data: testArray, // [12, 19, 3, 5, 2, 3],
         fill: false,
-        backgroundColor: "rgb(68,153,6)",
-        borderColor: "rgba(212,42,85,0.2)",
+        backgroundColor: "rgb(88, 93, 185)",
+        borderColor: "rgba(0, 0, 182, 0.5)",
       },
     ],
   };
