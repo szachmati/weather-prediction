@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Severity } from "../components/alert/Info";
+import { uuid } from "uuidv4";
 
 export const notificationSlice = createSlice({
   name: "notification",
@@ -54,6 +55,24 @@ export const accessTokenSlice = createSlice({
   },
 });
 
+export const blockedNotificationSlice = createSlice({
+  name: "blockedNotification",
+  initialState: {
+    wasShown: false,
+    uuid: null,
+  },
+  reducers: {
+    blockNotification: (state) => {
+      return {
+        ...state,
+        wasShown: true,
+        uuid: uuid(),
+      };
+    },
+  },
+});
+
 export const notificationReducer = notificationSlice.reducer;
 export const userReducer = userSlice.reducer;
 export const accessTokenReducer = accessTokenSlice.reducer;
+export const blockedNotificationReducer = blockedNotificationSlice.reducer;

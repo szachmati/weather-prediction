@@ -1,6 +1,7 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import {
   accessTokenReducer,
+  blockedNotificationReducer,
   notificationReducer,
   userReducer,
 } from "./app.store.reducer";
@@ -20,6 +21,7 @@ export const persistedReducer = persistReducer(
     notification: notificationReducer,
     user: userReducer,
     accessToken: accessTokenReducer,
+    blockedNotification: blockedNotificationReducer,
   })
 );
 

@@ -10,20 +10,20 @@ interface LineChartProps {
 }
 
 export const LineChart = (props: LineChartProps) => {
-  const { dataArray, testArray, labels, label } = props;
+  const { dataArray, testArray, labels } = props;
 
   const data = {
     labels: labels, //["1", "2", "3", "4", "5", "6"],
     datasets: [
       {
-        label: 'Predicted',
+        label: "Predicted",
         data: dataArray, // [12, 19, 3, 5, 2, 3],
         fill: false,
         backgroundColor: "rgb(109, 144, 50)",
         borderColor: "rgba(41, 255, 0, 0.6)",
       },
       {
-        label: 'Real',
+        label: "Real",
         data: testArray, // [12, 19, 3, 5, 2, 3],
         fill: false,
         backgroundColor: "rgb(88, 93, 185)",
